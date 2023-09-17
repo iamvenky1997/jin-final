@@ -44,27 +44,47 @@ const addProject_addUser = async (req, res) => {
 
 
 
-const projectDetailsOfLoginUser = (req, res) => {
+// const projectDetailsOfLoginUser = async(req, res) => {
+//   let userId = req.params.id;
+//   console.log(userId, "this is userID")
+//   try {
+//     const allProjectIds = await user_project.findAll({
+//       where :  {
+//         user_id : userId
+//       }
+//     })
+    
+//     console.log(allProjectIds)
+//     res.send(allProjectIds)
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
+
+const projectDetailsOfLoginUser = async (req, res) => {
   let userId = req.params.id;
+  console.log(userId, "this is userID");
   try {
-    // Find the user by their ID and include the associated projects
-    users.findByPk(userId, {
-      include: [
-        {
-          model: projects,
-          attributes: ['project_name', 'start_date', 'end_date'],
-          through: {
-            // If you have additional attributes in the user_project table, you can select them here
-          },
-        },
-      ],
-    }).then((user) => {
-      if (user) {
-        res.send(user.projects); // Note the lowercase 'projects' here
-      } else {
-        res.send(`User with ID ${userId} not found.`);
-      }
+    // Step 1: Fetch all project_ids associated with the user
+    const allProjectIds = await user_project.findAll({
+      where: {
+        user_id: userId,
+      },
     });
+
+    // Step 2: Extract project_ids from the result
+    const projectIds = allProjectIds.map((project) => project.project_id);
+    console.log(projectIds, "this is projectIds")
+
+    // Step 3: Fetch project details for each project_id
+    const projectDetails = await projects.findAll({
+      where: {
+        id: projectIds, // Use projectIds to filter the projects
+      },
+    });
+
+    console.log(projectDetails);
+    res.send(projectDetails);
   } catch (err) {
     console.log(err);
   }

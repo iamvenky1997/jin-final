@@ -33,7 +33,7 @@ app.use('/login',loginRouter)
 app.use('/event',eventRouter)
 app.use('/user',userRouter)
 app.use("/project", projectRouter)
-app.use("/user-project",userProjectsRouter)
+app.use("/userProject",userProjectsRouter)
 
 app.use("/holidays", holidaysRouter);
 

@@ -19,7 +19,7 @@ const login = async(req,res) =>{
             }
         })
         if(adminLoginStatus){
-                let isValidUser = bcrypt.compare(password,adminLoginStatus.dataValues.password)
+                let isValidUser = await bcrypt.compare(password,adminLoginStatus.dataValues.password)
                 if (isValidUser){
                 
                    const jwtAccessToken =  jwt.sign(email,process.env.ACCESS_TOKEN_SECRET)
@@ -38,9 +38,10 @@ const login = async(req,res) =>{
                 }
             })
             if (userLoginStatus){
-                   let isValidUser = bcrypt.compare(password,userLoginStatus.dataValues.password)
+                   let isValidUser =await bcrypt.compare(password,userLoginStatus.dataValues.password)
                     if (isValidUser){
                         const jwtAccessToken =  jwt.sign(email,process.env.ACCESS_TOKEN_SECRET)
+                        // const { password, ...userDetails } = userLoginStatus;
                         res.status(200).json({jsonToken : jwtAccessToken, role : 'user', message : "login successful as a user", user : userLoginStatus})
                     }
                     else{

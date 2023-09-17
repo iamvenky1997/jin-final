@@ -12,6 +12,7 @@ const UserProfile_ProjectAllocation = () => {
     const [isPopupVisible, setPopupVisible] = useState(false);
     const [isEditButtonVisible, setEditButtonVisible] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
+    const [projectsData,setProjectsData] = useState([])
 
     const loginUser = async () => {
         let id = localStorage.getItem("id")
@@ -21,8 +22,20 @@ const UserProfile_ProjectAllocation = () => {
         }
        
     }
+    const projectAllocationDetalils = async() =>{
+        let id = localStorage.getItem("id")
+        
+        if(id){
+            const response = await getLoginUser.UserProjectAllocationDetails(id)
+            setProjectsData(response.data)
+            // setProjectsData(response)
+            // console.log(projectsData, "this is projectsData")
+
+        }
+    }
     useEffect(() => {
         loginUser()
+        projectAllocationDetalils()
     }, [])
 
 
@@ -189,11 +202,11 @@ const UserProfile_ProjectAllocation = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {data.map((item) => (
+                                {projectsData && projectsData.map((item) => (
                                     <tr key={item.id}>
-                                        <td>{item.name}</td>
-                                        <td>{item.start}</td>
-                                        <td>{item.end}</td>
+                                        <td>{item.project_name}</td>
+                                        <td>{item.start_date}</td>
+                                        <td>{item.end_date}</td>
                                     </tr>
                                 ))}
                                 {/*             

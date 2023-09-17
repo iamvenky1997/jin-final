@@ -28,6 +28,14 @@ class GetLoginUser{
         }
     }
 
+    async UserProjectAllocationDetails(id){
+      try{
+          const response = await axios.get(`http://localhost:3000/userProject/${id}`, this.axisConfig);
+           return response
+      }catch(err){
+          console.log(err)
+      }
+  }
    
 
 }

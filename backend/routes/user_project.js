@@ -8,7 +8,7 @@ const {authenticateUser} = require("../middleware/authenticate")
 
 
 router.post('/',authenticateUser, user_projectController.addProject_addUser)
-router.delete("/:id",authenticateUser, user_projectController.projectDetailsOfLoginUser)
+router.get("/:id",authenticateUser, user_projectController.projectDetailsOfLoginUser)
 
 
 module.exports = router;
